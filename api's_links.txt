@@ -1,0 +1,91 @@
+AUTHENTICATION
+
+================================================================================
+
+1. Login (Get Access Token)
+   Method: POST
+   URL: http://localhost/CS383/CS383_Project/public/api/login
+   Body (form-data):
+     - email: student@example.com
+     - password: password
+   Response: Returns { "access_token": "..." } -> Copy this token!
+
+================================================================================
+
+
+GET REQUESTS
+
+
+================================================================================
+
+2. List All Courses
+   Method: GET
+   URL: http://localhost/CS383/CS383_Project/public/api/courses
+   Description: Returns a list of all available courses.
+
+3. Get Single Course Details
+   Method: GET
+   URL: http://localhost/CS383/CS383_Project/public/api/course/{id}
+   Example: http://localhost/CS383/CS383_Project/public/api/course/1
+   Description: Returns details of a specific course including instructor and students.
+
+4. Get Student Performance
+   Method: GET
+   URL: http://localhost/CS383/CS383_Project/public/api/student/performance
+   Description: Returns statistics (enrolled count, average progress) for the logged-in student.
+
+5. List Assignments
+   Method: GET
+   URL: http://localhost/CS383/CS383_Project/public/api/assignments
+   Optional Param: ?course_id={id}
+   Example: http://localhost/CS383/CS383_Project/public/api/assignments?course_id=1
+   Description: Returns a list of assignments. Can filter by course.
+
+6. List Materials
+   Method: GET
+   URL: http://localhost/CS383/CS383_Project/public/api/materials
+   Optional Param: ?course_id={id}
+   Example: http://localhost/CS383/CS383_Project/public/api/materials?course_id=1
+   Description: Returns a list of course materials. Can filter by course.
+
+7. List Departments
+   Method: GET
+   URL: http://localhost/CS383/CS383_Project/public/api/departments
+   Description: Returns a list of all university departments.
+
+8. List Semesters
+   Method: GET
+   URL: http://localhost/CS383/CS383_Project/public/api/semesters
+   Description: Returns a list of all semesters.
+
+9. Get User Profile
+   Method: GET
+   URL: http://localhost/CS383/CS383_Project/public/api/user
+   Description: Returns the currently logged-in user's information.
+
+================================================================================
+
+
+POST REQUESTS
+
+
+================================================================================
+
+10. Enroll in Course
+    Method: POST
+    URL: http://localhost/CS383/CS383_Project/public/api/enroll
+
+
+11. Submit Assignment
+    Method: POST
+    URL: http://localhost/CS383/CS383_Project/public/api/submission
+
+
+12. Update Progress
+    Method: POST
+    URL: http://localhost/CS383/CS383_Project/public/api/progress/update
+
+13. Create Announcement (Instructors Only)
+    Method: POST
+    URL: http://localhost/CS383/CS383_Project/public/api/announcement
+   
