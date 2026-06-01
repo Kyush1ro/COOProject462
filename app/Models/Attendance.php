@@ -2,32 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Attendance extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'course_id',
-        'student_id',
+        'employee_id',
         'date',
+        'check_in',
+        'check_out',
         'status',
-        'notes'
+        'notes',
     ];
 
     protected $casts = [
         'date' => 'date',
+        'check_in' => 'datetime',
+        'check_out' => 'datetime',
     ];
 
-    public function course()
+    public function employee()
     {
-        return $this->belongsTo(Course::class);
-    }
-
-    public function student()
-    {
-        return $this->belongsTo(User::class, 'student_id', 'Academic_ID');
+        return $this->belongsTo(User::class, 'employee_id');
     }
 }
