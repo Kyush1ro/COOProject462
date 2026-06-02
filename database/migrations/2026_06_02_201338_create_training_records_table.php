@@ -8,20 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('attendances', function (Blueprint $table) {
+        Schema::create('training_records', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            $table->date('attendance_date');
-
-            $table->time('check_in')->nullable();
-            $table->time('check_out')->nullable();
-
-            $table->string('status')->default('present');
-            // present, absent, late, leave
+            $table->string('training_name');
+            $table->string('provider')->nullable();
+            $table->date('completion_date')->nullable();
+            $table->string('certificate_url')->nullable();
+            $table->string('status')->default('completed');
+            // planned, in_progress, completed
 
             $table->text('notes')->nullable();
 
@@ -31,6 +30,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::dropIfExists('training_records');
     }
 };

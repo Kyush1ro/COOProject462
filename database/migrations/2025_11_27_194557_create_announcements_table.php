@@ -13,9 +13,26 @@ return new class extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_id')->constrained()->onDelete('cascade');
+
             $table->string('title');
             $table->text('content');
+
+            // General company announcement fields
+            $table->string('category')->nullable(); 
+            // general, safety, maintenance, hr, system
+
+            $table->string('priority')->default('normal');
+            // normal, important, urgent
+
+            $table->boolean('is_active')->default(true);
+
+            $table->unsignedBigInteger('created_by')->nullable();
+
+            $table->foreign('created_by')
+                ->references('Academic_ID')
+                ->on('users')
+                ->nullOnDelete();
+
             $table->timestamps();
         });
     }
