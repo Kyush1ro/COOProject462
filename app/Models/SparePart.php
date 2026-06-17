@@ -1,11 +1,31 @@
-public function workOrders()
-{
-    return $this->belongsToMany(WorkOrder::class, 'work_order_spare_parts')
-                ->withPivot('quantity')
-                ->withTimestamps();
-}
+<?php
 
-public function transactions()
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class SparePart extends Model
 {
-    return $this->hasMany(InventoryTransaction::class);
+    use HasFactory;
+
+    protected $fillable = [
+        'part_code',
+        'name',
+        'category',
+        'quantity',
+        'minimum_quantity',
+        'unit',
+        'storage_location',
+    ];
+
+    public function inventoryTransactions()
+    {
+        return $this->hasMany(InventoryTransaction::class);
+    }
+
+    public function purchaseRequisitions()
+    {
+        return $this->hasMany(PurchaseRequisition::class);
+    }
 }

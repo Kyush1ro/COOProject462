@@ -1,21 +1,40 @@
-public function maintenanceRequest()
-{
-    return $this->belongsTo(MaintenanceRequest::class);
-}
+<?php
 
-public function equipment()
-{
-    return $this->belongsTo(Equipment::class);
-}
+namespace App\Models;
 
-public function planner()
-{
-    return $this->belongsTo(User::class, 'planner_id');
-}
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-public function spareParts()
+class WorkOrder extends Model
 {
-    return $this->belongsToMany(SparePart::class, 'work_order_spare_parts')
-                ->withPivot('quantity')
-                ->withTimestamps();
+    use HasFactory;
+
+    protected $fillable = [
+        'maintenance_request_id',
+        'equipment_id',
+        'assigned_to',
+        'work_order_number',
+        'title',
+        'description',
+        'status',
+        'planned_start_date',
+        'planned_end_date',
+        'actual_start_date',
+        'actual_end_date',
+    ];
+
+    public function maintenanceRequest()
+    {
+        return $this->belongsTo(MaintenanceRequest::class);
+    }
+
+    public function equipment()
+    {
+        return $this->belongsTo(Equipment::class);
+    }
+
+    public function assignedUser()
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
 }

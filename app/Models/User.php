@@ -5,21 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
-    use HasFactory;
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
+        'Academic_ID',
         'name',
         'email',
         'password',
         'role',
-        'department_id',
-        'Academic_ID',
     ];
 
     protected $hidden = [
@@ -35,33 +31,43 @@ class User extends Authenticatable
         ];
     }
 
-    public function isAdmin(): bool
+    public function attendances()
     {
-        return $this->role === 'admin';
+        return $this->hasMany(Attendance::class);
     }
 
-    public function isPlanner(): bool
+    public function leaveRequests()
     {
-        return $this->role === 'planner';
+        return $this->hasMany(LeaveRequest::class);
     }
 
-    public function isHR(): bool
+    public function approvedLeaveRequests()
     {
-        return $this->role === 'hr';
+        return $this->hasMany(LeaveRequest::class, 'approved_by');
     }
 
-    public function isWarehouse(): bool
+    public function trainingRecords()
     {
-        return $this->role === 'warehouse';
+        return $this->hasMany(TrainingRecord::class);
     }
 
-    public function isEmployee(): bool
+    public function maintenanceRequests()
     {
-        return $this->role === 'employee';
+        return $this->hasMany(MaintenanceRequest::class, 'requested_by');
     }
 
-    public function department()
+    public function assignedWorkOrders()
     {
-        return $this->belongsTo(Department::class);
+        return $this->hasMany(WorkOrder::class, 'assigned_to');
+    }
+
+    public function inventoryTransactions()
+    {
+        return $this->hasMany(InventoryTransaction::class, 'created_by');
+    }
+
+    public function purchaseRequisitions()
+    {
+        return $this->hasMany(PurchaseRequisition::class, 'requested_by');
     }
 }
