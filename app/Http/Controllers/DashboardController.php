@@ -2,24 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\Equipment;
+use App\Models\MaintenanceRequest;
+use App\Models\PurchaseRequisition;
+use App\Models\SparePart;
+use App\Models\User;
+use App\Models\WorkOrder;
+use App\Models\LeaveRequest;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
+        $totalEquipment = Equipment::count();
 
-        $role = $user->role ?? 'employee';
+        $openMaintenanceRequests = MaintenanceRequest::whereIn('status', [
+            'pending',
+            'approved',
+            'in_progress',
+        ])->count();
 
-        $dashboardTitle = match ($role) {
-            'admin' => 'Admin Dashboard',
-            'planner' => 'Planner Dashboard',
-            'hr' => 'HR Dashboard',
-            'warehouse' => 'Warehouse Dashboard',
-            default => 'Employee Dashboard',
-        };
+        $activeWorkOrders = WorkOrder::whereIn('status', [
+            'open',
+            'in_progress',
+        ])->count();
 
-        return view('dashboard', compact('user', 'role', 'dashboardTitle'));
+        $lowStockParts = SparePart::whereColumn('quantity', '<=', 'minimum_quantity')->count();
+
+        $pendingPRs = PurchaseRequisition::where('status', 'pending')->count();
+
+        $pendingLeaveRequests = LeaveRequest::where('status', 'pending')->count();
+
+        $totalUsers = User::count();
+
+        $recentMaintenanceRequests = MaintenanceRequest::with('equipment')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $recentWorkOrders = WorkOrder::with('equipment')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('dashboard', compact(
+            'totalEquipment',
+            'openMaintenanceRequests',
+            'activeWorkOrders',
+            'lowStockParts',
+            'pendingPRs',
+            'pendingLeaveRequests',
+            'totalUsers',
+            'recentMaintenanceRequests',
+            'recentWorkOrders'
+        ));
     }
 }

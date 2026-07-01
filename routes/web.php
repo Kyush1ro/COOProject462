@@ -3,12 +3,17 @@
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\LeaveRequestController;
+use App\Http\Controllers\MaintenanceRequestController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PurchaseRequisitionController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SparePartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkOrderController;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -78,6 +83,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('users', UserController::class);
     Route::resource('departments', DepartmentController::class);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Petrochemical ERP Modules
+    |--------------------------------------------------------------------------
+    */
+
+    // PM Module
+    Route::resource('equipment', EquipmentController::class);
+    Route::resource('maintenance-requests', MaintenanceRequestController::class);
+    Route::resource('work-orders', WorkOrderController::class);
+
+    // MM Module
+    Route::resource('spare-parts', SparePartController::class);
+    Route::resource('purchase-requisitions', PurchaseRequisitionController::class);
+
+    // HCM Module
+    Route::resource('leave-requests', LeaveRequestController::class);
 
     /*
     |--------------------------------------------------------------------------
